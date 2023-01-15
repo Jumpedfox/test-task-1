@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  width: 100%;
+  min-height: 350px;
+
+  @media (min-width: 600px) {
+    min-height: 420px;
+  }
+
+  @media (min-width: 900px) {
+    min-height: 460px;
+  }
+
+  @media (min-width: 1200px) {
+    min-height: 370px;
+  }
+
+  @media (min-width: 1536px) {
+    min-height: 340px;
+  }
+
+  &-media {
+    height: 140px;
+  }
+
+  &-summary {
+    color: rgb(124, 124, 124);
+  }
+}

@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+import Homepage from "./components/homepage/homepage";
+import Articlepage from "./components/articlepage/articlepage";
+
+
 
 function App() {
+  // const currentId = useSelector((state: RootState) => state.articles.selectedArticle.id);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Suspense fallback={<>...</>}>
+            <Homepage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/article/:id"
+        element={
+          <Suspense fallback={<>...</>}>
+            <Articlepage />
+          </Suspense>
+        }
+      />
+    </Routes>
   );
 }
 
