@@ -1,4 +1,3 @@
-import axios from "axios";
 import ResultsSection from "../resultssection/resultssection";
 import { useDispatch, useSelector } from "react-redux";
 import {
