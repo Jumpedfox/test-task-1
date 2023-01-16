@@ -1,24 +1,24 @@
-import { ArticlesData, SelectedArticleData } from "../../types/types";
+import { ArticlesData, ArticleData } from "../../types/types";
 import {
   ArticlesActions,
   LATEST_ARTICLES_RESPONCE,
   ARTICLES_FILTERED_BY_TITLE_RESPONCE,
   ARTICLES_FILTERED_BY_SUMMARY_RESPONCE,
-  SELECTED_ARTICLE_RESPONSE,
+  ARTICLE_RESPONSE,
 } from "../actionTypes/articles";
 
 interface ArticlesState {
   latestArticlesData: ArticlesData;
   articlesFilteredByTitleData: ArticlesData;
   articlesFilteredBySummaryData: ArticlesData;
-  selectedArticleData: SelectedArticleData;
+  articleData: ArticleData;
 }
 
 const initialState: ArticlesState = {
   latestArticlesData: [],
   articlesFilteredByTitleData: [],
   articlesFilteredBySummaryData: [],
-  selectedArticleData: {
+  articleData: {
     id: 0,
     title: "",
     summary: "",
@@ -46,10 +46,10 @@ export const articlesReducer = (
         ...state,
         articlesFilteredBySummaryData: action.payload,
       };
-    case SELECTED_ARTICLE_RESPONSE:
+    case ARTICLE_RESPONSE:
       return {
         ...state,
-        selectedArticleData: action.payload,
+        articleData: action.payload,
       };
 
     default:

@@ -1,6 +1,6 @@
-export type ArticlesData = [];
+export type ArticlesData = ArticleData[];
 
-export type SelectedArticleData = {
+export type ArticleData = {
   id: number;
   title: string;
   summary: string;

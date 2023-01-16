@@ -8,20 +8,24 @@ export const loadHomepageFillerContent = async () => {
 };
 
 export const loadFilteredByTitleContent = async (titleString: string) => {
-  const titleRes = await axios.get(
-    `${url}?_where[title_contains]=${titleString}`
-  );
-  return titleRes.data;
+  if (titleString) {
+    const titleRes = await axios.get(
+      `${url}?_where[title_contains]=${titleString}`
+    );
+    return titleRes.data;
+  }
 };
 
 export const loadFilteredBySummaryContent = async (summaryString: string) => {
-  const summaryRes = await axios.get(
-    `${url}?_where[summary_contains]=${summaryString}`
-  );
-  return summaryRes.data;
+  if (summaryString) {
+    const summaryRes = await axios.get(
+      `${url}?_where[summary_contains]=${summaryString}`
+    );
+    return summaryRes.data;
+  }
 };
 
-export const loadSelectedArlicleData = async (id: number) => {
+export const loadArticleData = async (id: number) => {
   const res = await axios.get(`${url}/${id}`);
   return res.data;
 };

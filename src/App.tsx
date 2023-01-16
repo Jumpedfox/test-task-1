@@ -6,14 +6,12 @@ import Articlepage from "./components/articlepage/articlepage";
 
 
 function App() {
-  // const currentId = useSelector((state: RootState) => state.articles.selectedArticle.id);
-  
   return (
     <Routes>
       <Route
         path="/"
         element={
-          <Suspense fallback={<>...</>}>
+          <Suspense fallback={<>Loading...</>}>
             <Homepage />
           </Suspense>
         }
@@ -21,7 +19,7 @@ function App() {
       <Route
         path="/article/:id"
         element={
-          <Suspense fallback={<>...</>}>
+          <Suspense fallback={<>Loading...</>}>
             <Articlepage />
           </Suspense>
         }

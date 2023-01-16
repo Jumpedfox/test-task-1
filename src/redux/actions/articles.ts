@@ -1,10 +1,10 @@
-import { ArticlesData, SelectedArticleData } from "../../types/types";
+import { ArticlesData, ArticleData } from "../../types/types";
 import {
   ArticlesActions,
   LATEST_ARTICLES_RESPONCE,
   ARTICLES_FILTERED_BY_TITLE_RESPONCE,
   ARTICLES_FILTERED_BY_SUMMARY_RESPONCE,
-  SELECTED_ARTICLE_RESPONSE,
+  ARTICLE_RESPONSE,
 } from "../actionTypes/articles";
 
 export const latestArticlesData = (payload: ArticlesData): ArticlesActions => ({
@@ -26,9 +26,9 @@ export const articlesFilteredBySummaryData = (
   payload,
 });
 
-export const selectedArticleData = (
-  payload: SelectedArticleData
+export const articleData = (
+  payload: ArticleData
 ): ArticlesActions => ({
-  type: SELECTED_ARTICLE_RESPONSE,
+  type: ARTICLE_RESPONSE,
   payload,
 });

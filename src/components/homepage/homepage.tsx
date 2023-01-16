@@ -1,64 +1,73 @@
 import ResultsSection from "../resultssection/resultssection";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectedArticleData,
+  articleData,
   latestArticlesData,
   articlesFilteredByTitleData,
   articlesFilteredBySummaryData,
 } from "../../redux/actions/articles";
 import { RootState } from "../../redux/rootReducer";
-import { useEffect, useState } from "react";
-import { FormHelperText, Grid, Input, InputLabel } from "@mui/material";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import {
+  FormHelperText,
+  Grid,
+  Input,
+  InputLabel,
+} from "@mui/material";
 import "./homepage.scss";
 import {
   loadFilteredBySummaryContent,
   loadFilteredByTitleContent,
   loadHomepageFillerContent,
-  loadSelectedArlicleData,
+  loadArticleData,
 } from "../../api";
+import { ArticleData, ArticlesData } from "../../types/types";
 
-function Homepage() {
+const Homepage: FC = () => {
   const dispatch = useDispatch();
 
   const [inputKeyword, setInputKeyword] = useState("");
 
-  const titleString = inputKeyword.split(" ").join("&_where[title_contains]=");
-  const summaryString = inputKeyword
+  const titleString: string = inputKeyword
+    .split(" ")
+    .join("&_where[title_contains]=");
+  const summaryString: string = inputKeyword
     .split(" ")
     .join("&_where[summary_contains]=");
 
   const currentArticles = useSelector((state: RootState) => state.articles);
 
   const loadLatestArticles = async () => {
-    const res: any = await loadHomepageFillerContent();
+    const res: ArticlesData = await loadHomepageFillerContent();
     if (res) {
       dispatch(latestArticlesData(res));
     }
   };
 
-  const loadFilteredArticles = async (
-    titleString: string,
-    summaryString: string
-  ) => {
-    const titleRes: any = await loadFilteredByTitleContent(titleString);
+  const loadFilteredArticles = async (e: any) => {
+    e.preventDefault();
+    const titleRes: ArticlesData = await loadFilteredByTitleContent(
+      titleString
+    );
     if (titleRes) {
-      console.log(titleString);
       dispatch(articlesFilteredByTitleData(titleRes));
     }
-    const summaryRes: any = await loadFilteredBySummaryContent(summaryString);
+    const summaryRes: ArticlesData = await loadFilteredBySummaryContent(
+      summaryString
+    );
     if (summaryRes) {
       dispatch(articlesFilteredBySummaryData(summaryRes));
     }
   };
 
-  const loadSelectedArticle = async (id: number) => {
-    const res: any = await loadSelectedArlicleData(id);
+  const loadArticle = async (id: number) => {
+    const res: ArticleData = await loadArticleData(id);
     if (res) {
-      dispatch(selectedArticleData(res));
+      dispatch(articleData(res));
     }
   };
 
-  const handleWord = (e: any) => {
+  const handleWord = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.target.value);
   };
 
@@ -67,10 +76,10 @@ function Homepage() {
   }, []);
 
   return (
-    <div className="homepage">
+    <section className="homepage">
       <form
         className="homepage-form"
-        onChange={() => loadFilteredArticles(titleString, summaryString)}
+        onSubmit={(e: any) => loadFilteredArticles(e)}
       >
         <InputLabel htmlFor="my-input">Filter by keywords</InputLabel>
         <Input
@@ -79,7 +88,7 @@ function Homepage() {
           onChange={handleWord}
           placeholder="Type in here..."
         />
-        <FormHelperText>
+        <FormHelperText className="helper-text">
           {inputKeyword.length > 0
             ? `Results: ${
                 currentArticles.articlesFilteredByTitleData.length +
@@ -89,40 +98,31 @@ function Homepage() {
         </FormHelperText>
       </form>
       <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 7 }}>
-        {inputKeyword.length === 0 ? (
-          currentArticles.latestArticlesData.map((result: any) => (
-            <Grid item xs={12} sm={6} md={4} key={result.id}>
-              <ResultsSection
-                article={result}
-                loadSelectedArticle={loadSelectedArticle}
-              />
-            </Grid>
-          ))
-        ) : (
+        {titleString.length > 0 || summaryString.length > 0 ? (
           <>
             {currentArticles.articlesFilteredByTitleData.map((result: any) => (
               <Grid item xs={12} sm={6} md={4} key={result.id}>
-                <ResultsSection
-                  article={result}
-                  loadSelectedArticle={loadSelectedArticle}
-                />
+                <ResultsSection article={result} loadArticle={loadArticle} />
               </Grid>
             ))}
             {currentArticles.articlesFilteredBySummaryData.map(
               (result: any) => (
                 <Grid item xs={12} sm={6} md={4} key={result.id}>
-                  <ResultsSection
-                    article={result}
-                    loadSelectedArticle={loadSelectedArticle}
-                  />
+                  <ResultsSection article={result} loadArticle={loadArticle} />
                 </Grid>
               )
             )}
           </>
+        ) : (
+          currentArticles.latestArticlesData.map((result: any) => (
+            <Grid item xs={12} sm={6} md={4} key={result.id}>
+              <ResultsSection article={result} loadArticle={loadArticle} />
+            </Grid>
+          ))
         )}
       </Grid>
-    </div>
+    </section>
   );
-}
+};
 
 export default Homepage;

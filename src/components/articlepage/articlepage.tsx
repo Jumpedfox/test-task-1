@@ -6,30 +6,31 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/rootReducer";
 import "./articlepage.scss";
 
-function Articlepage() {
+const Articlepage: FC = () => {
   const navigate = useNavigate();
   const articles = useSelector((state: RootState) => state.articles);
 
   return (
     <Box className="articlepage">
       <img
-        src={articles.selectedArticleData.imageUrl}
-        alt={articles.selectedArticleData.title}
+        src={articles.articleData.imageUrl}
+        alt={articles.articleData.title}
       />
       <Box className="content-wrapper">
         <Card className="card-wrapper">
           <CardContent>
-            <Typography variant="h6">
-              {articles.selectedArticleData.title}
+            <Typography className="card-title" variant="h6">
+              {articles.articleData.title}
             </Typography>
             <Divider className="divider" orientation="horizontal" />
             <Typography className="card-summary" variant="subtitle2">
-              {articles.selectedArticleData.summary}
+              {articles.articleData.summary}
             </Typography>
           </CardContent>
         </Card>
@@ -40,6 +41,6 @@ function Articlepage() {
       </Box>
     </Box>
   );
-}
+};
 
 export default Articlepage;

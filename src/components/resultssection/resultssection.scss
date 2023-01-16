@@ -26,7 +26,12 @@
     height: 140px;
   }
 
+  &-title {
+    cursor: default;
+  }
+
   &-summary {
     color: rgb(124, 124, 124);
+    cursor: default;
   }
 }
