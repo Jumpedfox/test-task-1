@@ -8,12 +8,7 @@ import {
 } from "../../redux/actions/articles";
 import { RootState } from "../../redux/rootReducer";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import {
-  FormHelperText,
-  Grid,
-  Input,
-  InputLabel,
-} from "@mui/material";
+import { FormHelperText, Grid, Input, InputLabel } from "@mui/material";
 import "./homepage.scss";
 import {
   loadFilteredBySummaryContent,
@@ -75,6 +70,13 @@ const Homepage: FC = () => {
     loadLatestArticles();
   }, []);
 
+  useEffect(() => {
+    if (inputKeyword.length === 0) {
+      dispatch(articlesFilteredByTitleData([]));
+      dispatch(articlesFilteredBySummaryData([]));
+    }
+  }, [inputKeyword]);
+
   return (
     <section className="homepage">
       <form
@@ -98,7 +100,9 @@ const Homepage: FC = () => {
         </FormHelperText>
       </form>
       <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 7 }}>
-        {titleString.length > 0 || summaryString.length > 0 ? (
+        {currentArticles.articlesFilteredByTitleData.length +
+          currentArticles.articlesFilteredBySummaryData.length >
+        0 ? (
           <>
             {currentArticles.articlesFilteredByTitleData.map((result: any) => (
               <Grid item xs={12} sm={6} md={4} key={result.id}>
